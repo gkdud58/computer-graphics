@@ -1,32 +1,277 @@
-#include <iostream>
-#include "string.h"
+﻿#include <iostream>
+#include <cmath>
+using namespace std;
 
-/*
-점 (x, y, z) 데이터 값을 저장하는 리스트를 만든다. (점 데이터는 각각 정수이고, 구조체를 사용하도록 한다.)
-• 최대 10개의 점 데이터를 저장하도록 한다. (0번: 맨 아래, 9번: 맨 위)
-• 리스트에 데이터를 입력하거나 삭제하고 출력하는 명령어를 실행한다.
-• 각 명령어를 입력 받으면 결과 리스트를 다음페이지의 그림과 같이 항상 10개의 항목을 가진 리스트로 인덱스 번호와 데이터 값을 출력한다.
-• 구현 함수 프로토타입과 명령어:
-• + x y z: 리스트의 맨 위에 입력 (x, y, z: 숫자)
-• -: 리스트의 맨 위에서 삭제한다.
-• e x y z: 리스트의 맨 아래에 입력 (명령어 +와 반대의 위치, 리스트에 저장된 데이터값이 위로 올라간다.)
-• d: 리스트의 맨 아래에서 삭제한다. (리스트에서 삭제된 칸이 비어있다.)
-• a: 리스트에 저장된 점의 개수를 출력한다.
-• b: 점들의 리스트 위치를 한 칸씩 내려 보낸다. (즉, 0 → 9, 1 → 0, 2 → 1, … 9 → 8)
-• c: 리스트를 비운다. 리스트를 비운 후 다시 입력하면 0번부터 저장된다.
-• f: 각 점에서 원점과의 거리를 계산 후, 그 값을 정렬하여 오름차순으로 정렬하여 출력한다. 인덱스 0번부터 빈 칸없이 저장하여 출력한다. 리
-스트 각 칸의 옆에는 해당 칸의 점과 원점과의 거리를 출력한다. 다시 누르면 원래대로 출력한다.
-• g: 리스트에 저장된 점들에서 두 점간의 모든 조합에 대한 거리를 계산하고 가장 먼 두 점, 가장 가까운 두 점을 출력한다. 이때, 두 점의 좌표
-값과 그 점 사이의 거리, 가장 먼 두 점, 가장 가까운 두 점을 출력하고 그 점간의 거리도 출력한다.
-• q: 프로그램을 종료한다.
-** 리스트에서 맨 위(인덱스 9번)까지 차고 아래칸(인덱스 0번)이 비어 있으면 다음 데이터 입력할 때는 0번에 입력된다.
-** 즉, 10개의 칸을 다 채울 수 있어야 함.
-
-*/
 struct Pos {
 	int x, y, z;
 };
 
-int main() {
+int findTop(bool exist[], int size) {
+	for (int i = size - 1; i >= 0; i--) {
+		if (exist[i]) {
+			return i;
+		}
+	}
+	return -1;
+}
 
+int findBottom(bool exist[], int size) {
+	for (int i = 0; i < size; i++) {
+		if (exist[i]) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int main() {
+	const int MAX_SIZE = 10;
+
+	Pos posList[MAX_SIZE];   
+	bool exist[MAX_SIZE];    
+	int pointCount = 0;   
+	bool sort_onoff = false; 
+
+	for (int i = 0; i < MAX_SIZE; i++) {
+		exist[i] = false;
+	}
+
+	char cmd;
+
+	while (true) {
+		cout << endl << "명령어 입력 (+, -, e, d, a, b, c, f, g, q) : ";
+		cin >> cmd;
+
+		if (cmd == '+') {
+			int x, y, z;
+			cin >> x >> y >> z;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << "숫자만 입력해주세요." << endl;
+				continue;
+			}
+
+
+			if (pointCount >= MAX_SIZE) {
+				cout << "리스트가 가득 찼습니다." << endl;
+			}
+			else {
+				int target;
+				if (pointCount == 0) {
+					target = 0;
+				}
+				else {
+					int top = findTop(exist, MAX_SIZE);
+					if (top == MAX_SIZE - 1) {
+						int gap = -1;
+						for (int i = 0; i < MAX_SIZE; i++) {
+							if (!exist[i]) {
+								gap = i;
+								break;
+							}
+						}
+						target = gap;
+					}
+					else {
+						target = top + 1;
+					}
+				}
+				posList[target].x = x;
+				posList[target].y = y;
+				posList[target].z = z;
+				exist[target] = true;
+				pointCount++;
+			}
+		}
+		else if (cmd == '-') {
+			if (pointCount <= 0) {
+				cout << "리스트가 비어있습니다." << endl;
+			}
+			else {
+				int top = findTop(exist, MAX_SIZE);
+				exist[top] = false;
+				pointCount--;
+			}
+		}
+		else if (cmd == 'e') {
+			int x, y, z;
+			cin >> x >> y >> z;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << "숫자만 입력해주세요." << endl;
+				continue;
+			}
+
+			if (pointCount >= MAX_SIZE) {
+				cout << "리스트가 가득 찼습니다." << endl;
+			}
+			else {
+				int target;
+				if (pointCount == 0) {
+					target = 0;
+				}
+				else if (!exist[0]) {
+					target = 0;  
+				}
+				else {
+					int gap = -1;
+					for (int i = 1; i < MAX_SIZE; i++) {
+						if (!exist[i]) {
+							gap = i;
+							break;
+						}
+					}
+					for (int i = gap; i > 0; i--) {
+						posList[i] = posList[i - 1];
+						exist[i] = true;
+					}
+
+					target = 0;   
+				}
+				posList[target].x = x;
+				posList[target].y = y;
+				posList[target].z = z;
+				exist[target] = true;
+				pointCount++;
+			}
+		}
+
+		else if (cmd == 'd') {
+			if (pointCount <= 0) {
+				cout << "리스트가 비어있습니다." << endl;
+			}
+			else {
+				int bottom = findBottom(exist, MAX_SIZE);
+				exist[bottom] = false;
+				pointCount--;
+			}
+		}
+		else if (cmd == 'a') {
+			cout << "저장된 점의 개수 : " << pointCount << endl;
+		}
+		else if (cmd == 'b') {
+			Pos tempList[MAX_SIZE];
+			bool tempexist[MAX_SIZE];
+
+			for (int i = 0; i < MAX_SIZE; i++) {
+				int newIndex = (i - 1 + MAX_SIZE) % MAX_SIZE;
+				tempList[newIndex] = posList[i];
+				tempexist[newIndex] = exist[i];
+			}
+			for (int i = 0; i < MAX_SIZE; i++) {
+				posList[i] = tempList[i];
+				exist[i] = tempexist[i];
+			}
+		}
+		else if (cmd == 'c') {
+			for (int i = 0; i < MAX_SIZE; i++) {
+				exist[i] = false;
+			}
+			pointCount = 0;
+		}
+		else if (cmd == 'f') {
+			if (sort_onoff) {
+				sort_onoff = false;
+			}
+			else {
+				sort_onoff = true;
+			}
+		}
+		else if (cmd == 'g') {
+			Pos points[MAX_SIZE];
+			int n = 0;
+			for (int i = 0; i < MAX_SIZE; i++) {
+				if (exist[i]) {
+					points[n] = posList[i];
+					n++;
+				}
+			}
+
+			if (n < 2) {
+				cout << "점이 2개가 필요합니다." << endl;
+			}
+			else {
+				double maxDist = -1;
+				double minDist = -1;
+				int maxA = 0, maxB = 0, minA = 0, minB = 0;
+
+				for (int i = 0; i < n - 1; i++) {
+					for (int j = i + 1; j < n; j++) {
+						int dx = points[i].x - points[j].x;
+						int dy = points[i].y - points[j].y;
+						int dz = points[i].z - points[j].z;
+						double dist = sqrt((double)(dx * dx + dy * dy + dz * dz));
+
+						if (maxDist < 0 || dist > maxDist) {
+							maxDist = dist;
+							maxA = i;
+							maxB = j;
+						}
+						if (minDist < 0 || dist < minDist) {
+							minDist = dist;
+							minA = i;
+							minB = j;
+						}
+					}
+				}
+
+				cout << "가장 먼 두 점 : (" << points[maxA].x << "," << points[maxA].y << "," << points[maxA].z << ") , (" << points[maxB].x << "," << points[maxB].y << "," << points[maxB].z << ")  거리 : " << maxDist << endl;
+				cout << "가장 가까운 두 점 : (" << points[minA].x << "," << points[minA].y << "," << points[minA].z << ") , (" << points[minB].x << "," << points[minB].y << "," << points[minB].z << ")  거리 : " << minDist << endl;
+			}
+		}
+		else if (cmd == 'q') {
+			break;
+		}
+		else {
+			cout << "알 수 없는 명령어 입니다." << endl;
+			continue; 
+		}
+
+		if (cmd != 'a' && cmd != 'g') {
+			if (sort_onoff) {
+				Pos temp[MAX_SIZE];
+				int n = 0;
+				for (int i = 0; i < MAX_SIZE; i++) {
+					if (exist[i]) {
+						temp[n] = posList[i];
+						n++;
+					}
+				}
+
+				for (int i = 0; i < n - 1; i++) {
+					for (int j = 0; j < n - 1 - i; j++) {
+						double d1 = sqrt((double)(temp[j].x * temp[j].x + temp[j].y * temp[j].y + temp[j].z * temp[j].z));
+						double d2 = sqrt((double)(temp[j + 1].x * temp[j + 1].x + temp[j + 1].y * temp[j + 1].y + temp[j + 1].z * temp[j + 1].z));
+						if (d1 > d2) {
+							Pos t = temp[j];
+							temp[j] = temp[j + 1];
+							temp[j + 1] = t;
+						}
+					}
+				}
+
+				for (int i = 0; i < n; i++) {
+					double dist = sqrt((double)(temp[i].x * temp[i].x + temp[i].y * temp[i].y + temp[i].z * temp[i].z));
+					cout << i << " : (" << temp[i].x << ", " << temp[i].y << ", " << temp[i].z << ")  거리 : " << dist << endl;
+				}
+				for (int i = n; i < MAX_SIZE; i++) {
+					cout << i << " : " << endl;
+				}
+			}
+			else {
+				for (int i = MAX_SIZE - 1; i >= 0; i--) {
+					if (exist[i]) {
+						cout << i << " : (" << posList[i].x << ", " << posList[i].y << ", " << posList[i].z << ")" << endl;
+					}
+					else {
+						cout << i << " : " << endl;
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
 }
