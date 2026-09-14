@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-// temp
+// temp temp
 struct Pos {
 	int x, y, z;
 };
