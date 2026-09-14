@@ -1,7 +1,7 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <cmath>
 using namespace std;
-
+// temp
 struct Pos {
 	int x, y, z;
 };
@@ -39,7 +39,7 @@ int main() {
 	char cmd;
 
 	while (true) {
-		cout << endl << "ëª…ë ¹ì–´ ìž…ë ¥ (+, -, e, d, a, b, c, f, g, q) : ";
+		cout << endl << "¸í·É¾î ÀÔ·Â (+, -, e, d, a, b, c, f, g, q) : ";
 		cin >> cmd;
 
 		if (cmd == '+') {
@@ -48,13 +48,13 @@ int main() {
 			if (cin.fail()) {
 				cin.clear();
 				cin.ignore(1000, '\n');
-				cout << "ìˆ«ìžë§Œ ìž…ë ¥í•´ì£¼ì„¸ìš”." << endl;
+				cout << "¼ýÀÚ¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
 				continue;
 			}
 
 
 			if (pointCount >= MAX_SIZE) {
-				cout << "ë¦¬ìŠ¤íŠ¸ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤." << endl;
+				cout << "¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù." << endl;
 			}
 			else {
 				int target;
@@ -86,7 +86,7 @@ int main() {
 		}
 		else if (cmd == '-') {
 			if (pointCount <= 0) {
-				cout << "ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìžˆìŠµë‹ˆë‹¤." << endl;
+				cout << "¸®½ºÆ®°¡ ºñ¾îÀÖ½À´Ï´Ù." << endl;
 			}
 			else {
 				int top = findTop(exist, MAX_SIZE);
@@ -100,12 +100,12 @@ int main() {
 			if (cin.fail()) {
 				cin.clear();
 				cin.ignore(1000, '\n');
-				cout << "ìˆ«ìžë§Œ ìž…ë ¥í•´ì£¼ì„¸ìš”." << endl;
+				cout << "¼ýÀÚ¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
 				continue;
 			}
 
 			if (pointCount >= MAX_SIZE) {
-				cout << "ë¦¬ìŠ¤íŠ¸ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤." << endl;
+				cout << "¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù." << endl;
 			}
 			else {
 				int target;
@@ -140,7 +140,7 @@ int main() {
 
 		else if (cmd == 'd') {
 			if (pointCount <= 0) {
-				cout << "ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìžˆìŠµë‹ˆë‹¤." << endl;
+				cout << "¸®½ºÆ®°¡ ºñ¾îÀÖ½À´Ï´Ù." << endl;
 			}
 			else {
 				int bottom = findBottom(exist, MAX_SIZE);
@@ -149,7 +149,7 @@ int main() {
 			}
 		}
 		else if (cmd == 'a') {
-			cout << "ì €ìž¥ëœ ì ì˜ ê°œìˆ˜ : " << pointCount << endl;
+			cout << "ÀúÀåµÈ Á¡ÀÇ °³¼ö : " << pointCount << endl;
 		}
 		else if (cmd == 'b') {
 			Pos tempList[MAX_SIZE];
@@ -190,7 +190,7 @@ int main() {
 			}
 
 			if (n < 2) {
-				cout << "ì ì´ 2ê°œê°€ í•„ìš”í•©ë‹ˆë‹¤." << endl;
+				cout << "Á¡ÀÌ 2°³°¡ ÇÊ¿äÇÕ´Ï´Ù." << endl;
 			}
 			else {
 				double maxDist = -1;
@@ -217,15 +217,15 @@ int main() {
 					}
 				}
 
-				cout << "ê°€ìž¥ ë¨¼ ë‘ ì  : (" << points[maxA].x << "," << points[maxA].y << "," << points[maxA].z << ") , (" << points[maxB].x << "," << points[maxB].y << "," << points[maxB].z << ")  ê±°ë¦¬ : " << maxDist << endl;
-				cout << "ê°€ìž¥ ê°€ê¹Œìš´ ë‘ ì  : (" << points[minA].x << "," << points[minA].y << "," << points[minA].z << ") , (" << points[minB].x << "," << points[minB].y << "," << points[minB].z << ")  ê±°ë¦¬ : " << minDist << endl;
+				cout << "°¡Àå ¸Õ µÎ Á¡ : (" << points[maxA].x << "," << points[maxA].y << "," << points[maxA].z << ") , (" << points[maxB].x << "," << points[maxB].y << "," << points[maxB].z << ")  °Å¸® : " << maxDist << endl;
+				cout << "°¡Àå °¡±î¿î µÎ Á¡ : (" << points[minA].x << "," << points[minA].y << "," << points[minA].z << ") , (" << points[minB].x << "," << points[minB].y << "," << points[minB].z << ")  °Å¸® : " << minDist << endl;
 			}
 		}
 		else if (cmd == 'q') {
 			break;
 		}
 		else {
-			cout << "ì•Œ ìˆ˜ ì—†ëŠ” ëª…ë ¹ì–´ ìž…ë‹ˆë‹¤." << endl;
+			cout << "¾Ë ¼ö ¾ø´Â ¸í·É¾î ÀÔ´Ï´Ù." << endl;
 			continue; 
 		}
 
@@ -254,7 +254,7 @@ int main() {
 
 				for (int i = 0; i < n; i++) {
 					double dist = sqrt((double)(temp[i].x * temp[i].x + temp[i].y * temp[i].y + temp[i].z * temp[i].z));
-					cout << i << " : (" << temp[i].x << ", " << temp[i].y << ", " << temp[i].z << ")  ê±°ë¦¬ : " << dist << endl;
+					cout << i << " : (" << temp[i].x << ", " << temp[i].y << ", " << temp[i].z << ")  °Å¸® : " << dist << endl;
 				}
 				for (int i = n; i < MAX_SIZE; i++) {
 					cout << i << " : " << endl;
